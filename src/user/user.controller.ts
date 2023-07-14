@@ -1,6 +1,5 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Req } from '@nestjs/common';
 import { UserService } from './user.service';
-import { request } from 'https';
 import { UpdateUserDto } from './dto/user-update.dto';
 import { CreateUserDto } from './dto/user-create.dto';
 

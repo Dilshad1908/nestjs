@@ -2,22 +2,25 @@ import { Body, Injectable } from '@nestjs/common';
 import { UpdateUserDto } from './dto/user-update.dto';
 import { CreateUserDto } from './dto/user-create.dto';
 import { User } from './entity/user.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class UserService {
-    constructor(
-        @InjectRepository(User)
-        private usersRepository: Repository<User>,
-      ) {}
     
+    
+      constructor(
+        @InjectModel(User.name) 
+        private userModel: Model<User>) {}
+
     get():Promise<User[]>{
-        return this.usersRepository.find();
+        return this.userModel.find();
     }
 
     create(createUserDto:CreateUserDto){
-        return createUserDto
+        return new this.userModel(createUserDto).save()
+        // const createUser= new this.userModel(createUserDto)
+        // return createUser.save()
     }
     update(updateUserDto:UpdateUserDto, userId:number){
         return {body:updateUserDto,userId}
